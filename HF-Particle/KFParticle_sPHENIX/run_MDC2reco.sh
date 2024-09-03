@@ -10,15 +10,16 @@ source /opt/sphenix/core/bin/sphenix_setup.sh -n new
 #
 #source /opt/sphenix/core/bin/setup_local.sh $MYINSTALL
 
-nEvents=0
-
-inputFiles="{"
-for fileList in $@
-do
-  inputFiles+="\"${fileList}\","
-done
-inputFiles=${inputFiles::-1}
-inputFiles+="}"
+# nEvents=0
+# 
+# inputFiles="{"
+# for fileList in $@
+# do
+#   inputFiles+="\"${fileList}\","
+# done
+# inputFiles=${inputFiles::-1}
+# inputFiles+="}"
 echo running: run_HFreco.sh $*
-root.exe -q -b Fun4All_MDC2reco.C\(${inputFiles},$nEvents\)
+# root.exe -q -b Fun4All_MDC2reco.C\(${inputFiles},$nEvents\)
+root.exe -q -b Fun4All_MDC2reco.C
 echo Script done

@@ -33,7 +33,7 @@ R__LOAD_LIBRARY(libhftrackefficiency.so)
 
 int Fun4All_HFG(std::string processID = "0")
 {
-  int nEvents = 2e3;
+  int nEvents = 2e1;
   // std::string channel = "D2Kpi";
   std::string channel = "Lc_pKpi";
   //F4A setup

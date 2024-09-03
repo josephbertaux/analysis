@@ -34,6 +34,7 @@ void myHeavyFlavorReco()
   Fun4AllServer *se = Fun4AllServer::instance();
 
   KFParticle_sPHENIX *kfparticle = new KFParticle_sPHENIX(reconstructionName);
+  kfparticle->magFieldFile("FIELDMAP_TRACKING");
   kfparticle->Verbosity(1);
 
   kfparticle->setDecayDescriptor(decayDescriptor);
@@ -92,6 +93,7 @@ void myDemoReco()
   Fun4AllServer *se = Fun4AllServer::instance();
 
   KFParticle_sPHENIX *kfparticle = new KFParticle_sPHENIX(reconstructionName);
+  kfparticle->magFieldFile("FIELDMAP_TRACKING");
   kfparticle->Verbosity(1);
 
   kfparticle->setDecayDescriptor("B_s0 -> {J/psi -> e^+ e^-} {K_S0 -> pi^+ pi^-}");

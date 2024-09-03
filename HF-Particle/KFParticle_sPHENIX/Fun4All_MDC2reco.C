@@ -41,7 +41,7 @@ using namespace HeavyFlavorReco;
 
 void Fun4All_MDC2reco(vector<string> myInputLists = {"condorJob/fileLists/productionFiles-CHARM-dst_tracks-00000.list"}, const int nEvents = 0)
 {
-  bool runDemo = true; //Run the pure Bs2JpsiKs0 reco
+  bool runDemo = false; //true; //Run the pure Bs2JpsiKs0 reco
 
   gSystem->Load("libg4dst.so");
   gSystem->Load("libFROG.so");

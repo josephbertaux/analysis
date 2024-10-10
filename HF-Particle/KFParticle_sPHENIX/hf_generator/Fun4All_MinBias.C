@@ -1,5 +1,5 @@
-#ifndef MACRO_FUN4ALLG4SPHENIX_C
-#define MACRO_FUN4ALLG4SPHENIX_C
+#ifndef MACRO_FUN4ALLMINBIAS_C
+#define MACRO_FUN4ALLMINBIAS_C
 
 #include <G4_Input.C>
 #include <G4_Global.C>
@@ -37,7 +37,7 @@ R__LOAD_LIBRARY(libffamodules.so)
 #include <fun4all/Fun4AllServer.h>
 R__LOAD_LIBRARY(libfun4all.so)
 
-int Fun4All_HFG(std::string processID = "0")
+int Fun4All_MinBias(std::string processID = "0")
 {
   int nEvents = 2e3;
   // std::string channel = "D2Kpi";
@@ -54,62 +54,19 @@ int Fun4All_HFG(std::string processID = "0")
 
   Input::PYTHIA8 = true;
 
-  if (channel == "bs2jpsiks0")
-  {
-    PYTHIA8::config_file = "steeringCards/pythia8_bs2jpsiks0.cfg";
-    EVTGENDECAYER::DecayFile = "decFiles/Bs2JpsiKS0.DEC";
-  }
-  else if (channel == "b2DX")
-  {
-    PYTHIA8::config_file = "steeringCards/pythia8_b2DX.cfg";
-    EVTGENDECAYER::DecayFile = "decFiles/b2DX.DEC";
-  }
-  else if (channel == "D2Kpi")
-  {
-    PYTHIA8::config_file = "steeringCards/pythia8_D2Kpi.cfg";
-    EVTGENDECAYER::DecayFile = "decFiles/D2Kpi.DEC";
-  }
-  else if (channel == "Lc_pKpi")
-  {
-    PYTHIA8::config_file = "steeringCards/pythia8_Lc_pKpi.cfg";
-    EVTGENDECAYER::DecayFile = "decFiles/Lc_pKpi.DEC";
-  }
-  else
-  {
-    std::cout << "Your decay channel " << channel << " is not known" << std::endl;
-    exit(1); 
-  }
+  PYTHIA8::config_file = "steeringCards/phpythia8_minBias_MDC2.cfg";
+
 
   Input::BEAM_CONFIGURATION = Input::pp_COLLISION;
 
   InputInit();
 
-  PHPy8ParticleTrigger * p8_hf_signal_trigger = new PHPy8ParticleTrigger();
-  if (channel == "bs2jpsiks0")
-  {
-    p8_hf_signal_trigger->AddParticles(531);
-    p8_hf_signal_trigger->AddParticles(-531);
-  }
-  else if (channel == "b2DX")
-  {
-    p8_hf_signal_trigger->AddParticles(5);
-    p8_hf_signal_trigger->AddParticles(-5);
-  }
-  else if (channel == "Lc_pKpi")
-  {
-    p8_hf_signal_trigger->AddParticles(4122);
-    p8_hf_signal_trigger->AddParticles(-4122);
-  }
-  else
-  {
-    p8_hf_signal_trigger->AddParticles(421);
-    p8_hf_signal_trigger->AddParticles(-421);
-  }
-  p8_hf_signal_trigger->SetPtLow(1.);
-  p8_hf_signal_trigger->SetEtaHighLow(1.3, -1.3); // sample a rapidity range higher than the sPHENIX tracking pseudorapidity
-  p8_hf_signal_trigger->SetStableParticleOnly(false); // process unstable particles that include quarks
-  p8_hf_signal_trigger->PrintConfig();
-  INPUTGENERATOR::Pythia8->register_trigger(p8_hf_signal_trigger);
+  // PHPy8ParticleTrigger * p8_hf_signal_trigger = new PHPy8ParticleTrigger();
+  // p8_hf_signal_trigger->SetPtLow(1.);
+  // p8_hf_signal_trigger->SetEtaHighLow(1.3, -1.3); // sample a rapidity range higher than the sPHENIX tracking pseudorapidity
+  // p8_hf_signal_trigger->SetStableParticleOnly(false); // process unstable particles that include quarks
+  // p8_hf_signal_trigger->PrintConfig();
+  // INPUTGENERATOR::Pythia8->register_trigger(p8_hf_signal_trigger);
   INPUTGENERATOR::Pythia8->set_trigger_OR();
 
   Input::ApplysPHENIXBeamParameter(INPUTGENERATOR::Pythia8);
@@ -130,30 +87,18 @@ int Fun4All_HFG(std::string processID = "0")
   se->registerSubsystem(flag);
 
 
-  DecayFinder *myFinder = new DecayFinder("myFinder");
-  myFinder->Verbosity(INT_MAX);
-  std::string decayDescriptor;
-  if (channel == "bs2jpsiks0")
-  {
-    decayDescriptor = "[B_s0 -> {J/psi -> e^+ e^-} {K_S0 -> pi^+ pi^-}]cc";
-  }
-  else if (channel == "Lc_pKpi")
-  {
-    decayDescriptor = "[Lambda_c+ -> proton^+ K^- pi^+]cc";
-  }
-  else
-  {
-    decayDescriptor = "[D0 -> K^- pi^+]cc";
-  }
-  myFinder->setDecayDescriptor(decayDescriptor);
-  myFinder->saveDST(1);
-  myFinder->allowPi0(1);
-  myFinder->allowPhotons(1);
-  myFinder->triggerOnDecay(1);
-  myFinder->setPTmin(0.16); //Note: sPHENIX min pT is 0.2 GeV for tracking
-  myFinder->setEtaRange(-1.2, 1.2); //Note: sPHENIX acceptance is |eta| <= 1.1
-  myFinder->useDecaySpecificEtaRange(false);
-  se->registerSubsystem(myFinder);  
+  // DecayFinder *myFinder = new DecayFinder("myFinder");
+  // myFinder->Verbosity(INT_MAX);
+  std::string decayDescriptor = "[Lambda_c+ -> proton^+ K^- pi^+]cc";
+  // myFinder->setDecayDescriptor(decayDescriptor);
+  // myFinder->saveDST(1);
+  // myFinder->allowPi0(1);
+  // myFinder->allowPhotons(1);
+  // myFinder->triggerOnDecay(1);
+  // myFinder->setPTmin(0.16); //Note: sPHENIX min pT is 0.2 GeV for tracking
+  // myFinder->setEtaRange(-1.2, 1.2); //Note: sPHENIX acceptance is |eta| <= 1.1
+  // myFinder->useDecaySpecificEtaRange(false);
+  // se->registerSubsystem(myFinder);  
 
   //Simulation setup
 
@@ -196,20 +141,20 @@ int Fun4All_HFG(std::string processID = "0")
   build_truthreco_tables();
 
   //HF stuff
-  HFTrackEfficiency *myTrackEff = new HFTrackEfficiency("myTrackEff");
-  myTrackEff->Verbosity(INT_MAX);
-  myTrackEff->setDFNodeName("myFinder");
-  myTrackEff->triggerOnDecay(1);
-  myTrackEff->writeSelectedTrackMap(true);
-  myTrackEff->writeOutputFile(true);
-  std::string outputHFEffFile = "./dat/outputHFTrackEff_" + channel + "_" + processID + ".root";
-  myTrackEff->setOutputFileName(outputHFEffFile);
-  se->registerSubsystem(myTrackEff);
+  // HFTrackEfficiency *myTrackEff = new HFTrackEfficiency("myTrackEff");
+  // myTrackEff->Verbosity(INT_MAX);
+  // myTrackEff->setDFNodeName("myFinder");
+  // myTrackEff->triggerOnDecay(1);
+  // myTrackEff->writeSelectedTrackMap(true);
+  // myTrackEff->writeOutputFile(true);
+  // std::string outputHFEffFile = "./dat/outputMinBiasHFTrackEff_" + channel + "_" + processID + ".root";
+  // myTrackEff->setOutputFileName(outputHFEffFile);
+  // se->registerSubsystem(myTrackEff);
 
   //KFParticle stuff
   KFParticle_sPHENIX* myKFParticle = new KFParticle_sPHENIX("myKFParticle");
   myKFParticle->setDecayDescriptor(decayDescriptor);
-  myKFParticle->setTrackMapNodeName("HFSelected_SvtxTrackMap");
+  // myKFParticle->setTrackMapNodeName("HFSelected_SvtxTrackMap");
 
   myKFParticle->constrainToPrimaryVertex(true);
   myKFParticle->setMotherIPchi2(999.0);
@@ -233,17 +178,13 @@ int Fun4All_HFG(std::string processID = "0")
   myKFParticle->setMaximumMass(2.50);
   myKFParticle->setMaximumMotherVertexVolume(999.0);
   myKFParticle->saveDST();
-  std::string outputKFParticleFile = "./dat/outputKFParticle_" + channel + "_" + processID + ".root";
+  std::string outputKFParticleFile = "./dat/outputMinBiasKFParticle_" + channel + "_" + processID + ".root";
   myKFParticle->setOutputName(outputKFParticleFile);
   se->registerSubsystem(myKFParticle);
 
   //Output file handling
 
-  string FullOutFile;
-  if (channel == "bs2jpsiks0") FullOutFile = "./dat/Bs2JpsiKS0_DST_" + processID + ".root";
-  else if (channel == "b2DX") FullOutFile = "./dat/b2DX_DST_" + processID + ".root";
-  else if (channel == "Lc_pKpi") FullOutFile = "./dat/LcpKpi_DST_" + processID + ".root";
-  else FullOutFile = "./dat/D2Kpi_DST_" + processID + ".root";
+  string FullOutFile = "./dat/MinBias_DST_" + processID + ".root";
   Fun4AllDstOutputManager *out = new Fun4AllDstOutputManager("DSTOUT", FullOutFile);
   out->StripNode("G4HIT_PIPE");
   out->StripNode("G4HIT_SVTXSUPPORT");
@@ -281,4 +222,4 @@ int Fun4All_HFG(std::string processID = "0")
   return 0;
 }
 
-#endif
+#endif//MACRO_FUN4ALLMINBIAS_C
